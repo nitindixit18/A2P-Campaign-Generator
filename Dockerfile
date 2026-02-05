@@ -22,13 +22,12 @@ WORKDIR /app
 
 # Copy built assets from builder
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
 
-# Install only vite for preview server
-RUN npm install vite
+# Install serve - a simple static file server
+RUN npm install -g serve
 
 # Expose port
 EXPOSE 3000
 
-# Start the preview server
-CMD ["npx", "vite", "preview", "--host", "0.0.0.0", "--port", "3000"]
+# Serve the built files
+CMD ["serve", "-s", "dist", "-l", "3000"]
