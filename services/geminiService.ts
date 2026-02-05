@@ -2,7 +2,13 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { BusinessInfo, UseCase, CampaignData } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = import.meta.env.VITE_API_KEY;
+
+if (!apiKey) {
+  throw new Error("VITE_API_KEY is not defined");
+}
+
+const ai = new GoogleGenAI({ apiKey });
 
 export const generateCampaignContent = async (business: BusinessInfo, useCase: UseCase, campaign: CampaignData) => {
   const isMixed = ['MIXED', 'LOW_VOLUME_MIXED'].includes(useCase.id);
